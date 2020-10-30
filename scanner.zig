@@ -757,9 +757,13 @@ const Scanner = struct {
         const common_file = try std.fs.cwd().createFile(common_filename, .{});
         defer common_file.close();
         try protocol.emitCommon(common_file.writer());
-        try (try scanner.common.getOrPutValue(protocol_namespace, .{})).value.append(gpa, common_filename);
+        try (try scanner.common.getOrPutValue(p, .{})).value.append(gpa, common_filename);
     }
 };
+
+/// Takes a slice of absolute paths to protocol xml files and returns
+/// a "wayland" package
+pub fn scan(protocols: []const []const u8) void
 
 pub fn main() !void {
     var scanner = Scanner{};
